@@ -34,7 +34,7 @@ flowchart LR
     end
     subgraph DBX[Databricks Stack]
       RG5[DBX RG]
-      WS[Workspace (VNet injected, no public IP)]
+      WS[Workspace - VNet injected, no public IP]
       POL[Cluster Policy]
       CL[Interactive Cluster]
       RG5 --> WS --> POL
@@ -98,16 +98,16 @@ flowchart TB
     Container --> QaKey
     Container --> ProdKey
 
-    note1"backend.hcl selects key per env" --> DevKey
-    note2"backend.hcl selects key per env" --> QaKey
-    note3"backend.hcl selects key per env" --> ProdKey
+    note1["backend.hcl selects key per env"] --> DevKey
+    note2["backend.hcl selects key per env"] --> QaKey
+    note3["backend.hcl selects key per env"] --> ProdKey
 ```
 
 ## Azure DevOps Flow
 ```mermaid
 flowchart LR
     Dev[Commit to dev/qa/prod branch] --> CI[Pipeline trigger]
-    CI --> INIT[terraform init (backend per env)]
+    CI --> INIT[terraform init - backend per env]
     INIT --> VAL[terraform validate]
     VAL --> PLAN[terraform plan]
     PLAN --> ART[Publish tfplan artifact]
@@ -131,7 +131,7 @@ flowchart LR
 graph LR
     Policy[Cluster Policy\n- spark_version: 13.3\n- node_type: DS3_v2\n- autotermination: 15-240m]
     Policy --> Cluster1[Interactive Cluster\nautoscale 2-4]
-    Policy --> Cluster2[Job Cluster\n(add as needed)]
+    Policy --> Cluster2[Job Cluster\nadd as needed]
 
     Note[Policies enforce guardrails\nacross workspaces] --> Policy
 ```
