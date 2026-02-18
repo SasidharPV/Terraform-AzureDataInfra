@@ -46,8 +46,8 @@ flowchart LR
     LAW <-- diagnostics --> WS
     LAW <-- diagnostics --> ADF1
     LAW <-- diagnostics --> PV
-    ADLS -. data -> DBX
-    ADLS -. data -> ADF1
+    ADLS -.-> DBX
+    ADLS -.-> ADF1
 ```
 
 ## Repo Layout
