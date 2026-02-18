@@ -1,0 +1,10 @@
+workspace_name             = "dbw-qa"
+workspace_sku              = "standard"
+managed_rg_name            = "rg-dbw-qa-managed"
+resource_group_name        = "rg-dbw-qa"
+location                   = "eastus"
+tags                       = { env = "qa" }
+vnet_id                    = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-data-qa/providers/Microsoft.Network/virtualNetworks/vnet-qa"
+private_subnet_id          = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-data-qa/providers/Microsoft.Network/virtualNetworks/vnet-qa/subnets/databricks_private"
+public_subnet_id           = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-data-qa/providers/Microsoft.Network/virtualNetworks/vnet-qa/subnets/databricks_public"
+aad_admin_group_object_id  = "00000000-0000-0000-0000-000000000000"

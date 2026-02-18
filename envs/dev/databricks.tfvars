@@ -1,0 +1,10 @@
+workspace_name             = "dbw-dev"
+workspace_sku              = "standard"
+managed_rg_name            = "rg-dbw-dev-managed"
+resource_group_name        = "rg-dbw-dev"
+location                   = "eastus"
+tags                       = { env = "dev" }
+vnet_id                    = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-data-dev/providers/Microsoft.Network/virtualNetworks/vnet-dev"
+private_subnet_id          = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-data-dev/providers/Microsoft.Network/virtualNetworks/vnet-dev/subnets/databricks_private"
+public_subnet_id           = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-data-dev/providers/Microsoft.Network/virtualNetworks/vnet-dev/subnets/databricks_public"
+aad_admin_group_object_id  = "00000000-0000-0000-0000-000000000000"

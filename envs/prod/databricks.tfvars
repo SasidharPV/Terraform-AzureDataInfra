@@ -1,0 +1,10 @@
+workspace_name             = "dbw-prod"
+workspace_sku              = "premium"
+managed_rg_name            = "rg-dbw-prod-managed"
+resource_group_name        = "rg-dbw-prod"
+location                   = "eastus"
+tags                       = { env = "prod" }
+vnet_id                    = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-prod"
+private_subnet_id          = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-prod/subnets/databricks_private"
+public_subnet_id           = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-data-prod/providers/Microsoft.Network/virtualNetworks/vnet-prod/subnets/databricks_public"
+aad_admin_group_object_id  = "00000000-0000-0000-0000-000000000000"

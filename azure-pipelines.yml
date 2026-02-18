@@ -1,0 +1,23 @@
+# Root pipeline dispatcher: one pipeline per stack; env inferred from branch name
+trigger:
+- dev
+- qa
+- prod
+
+parameters:
+- name: stack
+  displayName: "Stack to deploy"
+  type: string
+  default: "network"
+  values:
+  - network
+  - identity
+  - monitoring
+  - purview
+  - adf
+  - databricks
+
+extends:
+  template: pipelines/azure-devops/terraform-pipeline.yml
+  parameters:
+    stack: ${{ parameters.stack }}

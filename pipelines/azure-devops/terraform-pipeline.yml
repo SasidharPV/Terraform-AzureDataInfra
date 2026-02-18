@@ -1,0 +1,61 @@
+parameters:
+- name: stack
+  type: string
+  default: "network"
+
+variables:
+- name: TF_VERSION
+  value: "1.9.0"
+- name: env
+  value: $[lower(variables['Build.SourceBranchName'])]
+- name: backend_rg
+  value: $(backend_rg)
+- name: backend_sa
+  value: $(backend_sa)
+- name: backend_container
+  value: $(backend_container)
+- name: state_key
+  value: "$(stack)/$(env).tfstate"
+
+stages:
+- stage: validate_plan
+  displayName: "Validate and Plan"
+  jobs:
+  - job: terraform
+    pool:
+      vmImage: ubuntu-latest
+    variables:
+    - group: vg-$(env)
+    steps:
+    - task: UseTerraform@0
+      inputs:
+        terraformVersion: $(TF_VERSION)
+    - script: terraform -chdir=stacks/$(stack) init -backend-config="resource_group_name=$(backend_rg)" -backend-config="storage_account_name=$(backend_sa)" -backend-config="container_name=$(backend_container)" -backend-config="key=$(state_key)" -reconfigure
+      displayName: terraform init
+    - script: terraform -chdir=stacks/$(stack) validate
+      displayName: terraform validate
+    - script: terraform -chdir=stacks/$(stack) plan -input=false -out=tfplan -var-file=../../envs/$(env)/$(stack).tfvars
+      displayName: terraform plan
+    - publish: stacks/$(stack)/tfplan
+      artifact: tfplan
+
+- stage: apply
+  displayName: "Apply"
+  dependsOn: validate_plan
+  condition: and(succeeded(), eq(variables['Build.Reason'], 'Manual'))
+  jobs:
+  - deployment: apply
+    environment: $(env)
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: tfplan
+          - task: UseTerraform@0
+            inputs:
+              terraformVersion: $(TF_VERSION)
+          - script: terraform -chdir=stacks/$(stack) init -backend-config="resource_group_name=$(backend_rg)" -backend-config="storage_account_name=$(backend_sa)" -backend-config="container_name=$(backend_container)" -backend-config="key=$(state_key)" -reconfigure
+            displayName: terraform init
+          - script: terraform -chdir=stacks/$(stack) apply -input=false tfplan/tfplan
+            displayName: terraform apply
